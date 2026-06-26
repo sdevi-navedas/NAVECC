@@ -188,15 +188,15 @@ export default function ArchitectureDiagram() {
 
       <Box x={xs3[1]} y={L0y} w={bw3} h={L0h}
         fill="#F8FAFC" stroke="#F0F4F5" strokeDash="5 3"
-        label="Regular prescription" sub="Future demo · not built"
+        label="NHS Workaround" sub="Future demo · not built"
         labelColor="#000000" subColor="#F0F4F5"
-        tooltip="UC2 — Regular Prescription Delivery — future demo, not yet built"
+        tooltip="UC2 — NHS Workaround Quantification — future demo, not yet built"
       />
       <Box x={xs3[2]} y={L0y} w={600 - xs3[2]} h={L0h}
         fill="#F8FAFC" stroke="#F0F4F5" strokeDash="5 3"
-        label="Prescription refill" sub="Future demo · not built"
+        label="Proactive intervention" sub="Future demo · not built"
         labelColor="#000000" subColor="#F0F4F5"
-        tooltip="UC3 — Prescription Refill Management — future demo, not yet built"
+        tooltip="UC3 — Proactive Intervention and Attribution Model — future demo, not yet built"
       />
 
       <Arrow x={CX} y1={L0b} y2={L1y} />

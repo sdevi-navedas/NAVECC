@@ -19,7 +19,7 @@ export default function LoginPage() {
 
   return (
     <div style={{
-      minHeight: "100vh", backgroundColor: "#F0F4F5",
+      minHeight: "100vh", backgroundColor: "#0D1B3E",
       display: "flex", alignItems: "center", justifyContent: "center",
       padding: "24px",
     }}>
@@ -29,12 +29,7 @@ export default function LoginPage() {
       }}>
         {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: 24 }}>
-          <img
-            src="/logo.svg"
-            alt="NavECC"
-            style={{ width: 48, height: 48, marginBottom: 12, display: "inline-block" }}
-          />
-          <div style={{ fontSize: 24, fontWeight: 500, color: "#000000", marginBottom: 4 }}>
+<div style={{ fontSize: 24, fontWeight: 500, color: "#000000", marginBottom: 4 }}>
             NavECC
           </div>
           <div style={{ fontSize: 13, color: "#000000" }}>

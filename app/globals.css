@@ -1,26 +1,91 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─── Universal text color override ─────────────────────────────────────── */
+
+* {
+  color: #000000 !important;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+a, .link,
+[class*="text-teal"],
+[class*="text-blue"],
+[class*="text-accent"] {
+  color: #005EB8 !important;
+}
+
+.text-white,
+[class*="text-white"],
+.pill-active {
+  color: #ffffff !important;
+}
+
+/* ─── NavECC color tokens ─────────────────────────────────────────────────── */
+
+@theme {
+  /* Brand colors — exact hex, no approximations */
+  --color-navy:    #005EB8;
+  --color-teal:    #028090;
+  --color-coral:   #005EB8;
+  --color-amber:   #028090;
+  --color-green:   #028090;
+  --color-purple:  #005EB8;
+  --color-blue:    #005EB8;
+  --color-surface: #F4F7FA;
+  --color-muted:   #000000;
+  --color-border:  #F0F4F5;
+  --color-dark:    #000000;
+
+  /* Teal hover tint for incident rows */
+  --color-teal-tint: #F8FFFE;
+
+  /* Teal subtle background for active sidebar */
+  --color-teal-subtle: #E6F4F5;
+
+  /* Typography scale */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Layout dimensions */
+  --spacing-navbar:  48px;
+  --spacing-usebar:  40px;
+  --spacing-sidebar: 220px;
+  --spacing-footer:  32px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base resets ─────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #FFFFFF;
+  color: #000000;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Pulsing dot animation (Clinical Risk ALERT state) ──────────────────── */
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.3); }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+/* ─── Flat surface rule — zero shadows everywhere ────────────────────────── */
+
+* {
+  box-shadow: none !important;
 }

@@ -9,7 +9,7 @@ export default function LoginPage() {
   const [error,    setError]    = useState(false);
 
   function handleLogin() {
-    if (password === "navedas2026") {
+    if (password === "Nav@2026") {
       sessionStorage.setItem("navedas_auth", "true");
       router.push("/setup");
     } else {

@@ -426,14 +426,15 @@ function Step2({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
               <input
                 type="text"
                 value={instruction}
-                onChange={e => setInstruction(e.target.value)}
+                onChange={e => seq === "idle" && setInstruction(e.target.value)}
                 placeholder="Enter instruction for CPXO…"
-                disabled={seq !== "idle"}
+                readOnly={seq !== "idle"}
                 className="s2-body"
                 style={{
-                  fontSize: 12, border: "0.5px solid #F0F4F5", borderRadius: 6,
+                  fontSize: 12, border: "0.5px solid #E2E8F0", borderRadius: 6,
                   padding: "5px 10px", width: 300,
-                  backgroundColor: seq !== "idle" ? "#F8FAFC" : "#FFFFFF",
+                  backgroundColor: "#FFFFFF",
+                  cursor: seq !== "idle" ? "default" : "text",
                 }}
               />
             </div>

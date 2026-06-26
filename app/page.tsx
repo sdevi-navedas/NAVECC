@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useRef } from "react";
 import {
-  Brain, Truck, HeartPulse, Shield, Bell,
-  ChevronRight, Pill, Folder,
+  Brain,
+  Pill, Folder,
   Paperclip, AtSign, ArrowUp, MessageCircle, Minus,
 } from "lucide-react";
 import type { AuditEntry, Incident, Agent } from "@/data/mockData";
-import type { ElementType } from "react";
+import { pendingApprovals } from "@/data/mockData";
 
 // ─── Brand ─────────────────────────────────────────────────────────────────
 const PUR = "#028090";
@@ -18,13 +18,6 @@ const REGIONS = [
   {c:"Y", n:"Yorkshire" },{c:"SW", n:"South West"},
 ];
 
-const AGENT_ICONS: Record<string, ElementType> = {
-  "cpxo":         Brain,
-  "delivery-ops": Truck,
-  "clinical-risk":HeartPulse,
-  "compliance":   Shield,
-  "engagement":   Bell,
-};
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 function delayColor(h: number) {
@@ -489,16 +482,6 @@ export default function DashboardPage() {
     { label:"Pending approvals",    value:`${fk.approvals}`,sub:"⏱ Action required",sc:"#dc2626",bc:"#dc2626", bb:"#fecaca", bp:fk.bp[3] },
   ];
 
-  const AGENT_FEED = agentsData.map(a => ({
-    id:   a.id,
-    Icon: AGENT_ICONS[a.id] ?? Brain,
-    bg:   a.color + "18",
-    ic:   a.color,
-    name: a.name,
-    sub:  a.currentTask,
-    sc:   a.status === "ALERT" ? "#dc2626" : a.status === "ACTIVE" ? "#16a34a" : "#bbb",
-  }));
-
   const openCount    = filteredIncidents.filter(i => i.status !== "RESOLVED").length;
   const courierWidth = filter === '90d' ? "0.9%" : "0.8%";
   const onTimeWidth  = filter === '90d' ? "97.4%" : "97.5%";
@@ -694,20 +677,35 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* RIGHT — Agents feed */}
+            {/* RIGHT — Actions awaiting approval */}
             <div style={{width:250,flexShrink:0,background:"#F4F7FA",display:"flex",flexDirection:"column",overflow:"hidden"}}>
-              <ColHeader title="Agents feed"/>
-              <div style={{flex:1,overflowY:"auto"}}>
-                {AGENT_FEED.map(({ id, Icon, bg, ic, name, sub, sc }) => (
-                  <div key={name} onClick={() => setSelectedAgent(id)} style={{display:"flex",alignItems:"center",gap:10,padding:"9px 14px",borderBottom:"1px solid #f0f0f0",cursor:"pointer",background:"#fff"}}>
-                    <Icon size={16} color={ic} style={{flexShrink:0}}/>
-                    <div style={{flex:1}}>
-                      <div style={{fontSize:11,color:"#111",fontWeight:600}}>{name}</div>
-                      <div style={{fontSize:10,color:sc,marginTop:1}}>{sub}</div>
+              <div style={{display:"flex",flexDirection:"column",padding:"10px 14px 6px",borderBottom:"1px solid #F0F4F5",backgroundColor:"#fff",flexShrink:0,gap:2}}>
+                <div style={{display:"flex",alignItems:"center",gap:6}}>
+                  <span style={{width:5,height:5,background:"#dc2626",borderRadius:"50%",display:"inline-block"}}/>
+                  <span style={{fontSize:10,color:"#aaa",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.5px"}}>Actions awaiting approval</span>
+                </div>
+                <span style={{fontSize:9.5,color:"#bbb",paddingLeft:11}}>No action taken without sign-off</span>
+              </div>
+              <div style={{flex:1,overflowY:"auto",display:"flex",flexDirection:"column"}}>
+                {pendingApprovals.map((action) => {
+                  const isCrit = action.severity === "CRITICAL";
+                  const barColor = isCrit ? "#dc2626" : "#d97706";
+                  const badgeBg  = isCrit ? "#fef2f2" : "#fffbeb";
+                  return (
+                    <div key={action.id} style={{background:"#fff",borderBottom:"1px solid #F0F4F5",borderLeft:`3px solid ${barColor}`,padding:"10px 12px"}}>
+                      <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:4}}>
+                        <span style={{fontSize:8.5,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.4px",color:barColor,background:badgeBg,padding:"1px 5px",borderRadius:3}}>{action.severity}</span>
+                        <span style={{fontSize:9,color:"#bbb",textTransform:"uppercase",letterSpacing:"0.3px"}}>{action.category}</span>
+                      </div>
+                      <div style={{fontSize:11,fontWeight:600,color:"#111",lineHeight:1.35,marginBottom:3}}>{action.title}</div>
+                      <div style={{fontSize:9.5,color:"#999",lineHeight:1.45,marginBottom:7}}>{action.detail}</div>
+                      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                        <span style={{fontSize:9,color:"#bbb",background:"#F4F7FA",border:"0.5px solid #e8e8e8",padding:"2px 7px",borderRadius:8}}>⏱ {action.timeRemaining}</span>
+                        <button style={{fontSize:10,fontWeight:600,color:"#028090",background:"transparent",border:"1px solid #028090",borderRadius:4,padding:"2px 9px",cursor:"pointer"}}>Review →</button>
+                      </div>
                     </div>
-                    <ChevronRight size={11} color="#ddd"/>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
